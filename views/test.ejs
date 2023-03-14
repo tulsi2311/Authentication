@@ -1,0 +1,73 @@
+<style>
+    tr {
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: bisque;
+    }
+
+    th {
+        background-color: bisque;
+    }
+
+    table {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+    }
+</style>
+<table border="1">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>first name</th>
+            <th> last Name</th>
+            <th>city</th>
+            <th>collage name</th>
+            <th>contact number</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <% for (let i=0; i < data.length; i++) { %>
+            <tr>
+                <td>
+                    <%= data[i]['student_id']%>
+                </td>
+                <td>
+                    <%= data[i]['f_name']%>
+                </td>
+                <td>
+                    <%= data[i]['l_name'] %>
+                </td>
+                <td>
+                    <%= data[i]['city'] %>
+                </td>
+                <td>
+                    <%= data[i]['collage_name'] %>
+                </td>
+                <td>
+                    <%= data[i]['contact_no'] %>
+                </td>
+                <!-- <td><%= data.length %></td> -->
+
+            </tr>
+            <% } %>
+    </tbody>
+</table>
+<!-- <div id="div1">
+        <a href="http://localhost:8080/?id=0"><b>1page</b></a>
+        <a href="http://localhost:8080/?id=1"><b>2page</b></a>
+        <a href="http://localhost:8080/?id=2"><b>3page</b></a>
+        <a href="http://localhost:8080/?id=3"><b>4page</b></a>
+        <a href="http://localhost:8080/?id=4"><b>5page</b></a>
+        <a href="http://localhost:8080/?id=5"><b>6page</b></a>
+        <a href="http://localhost:8080/?id=6"><b>7page</b></a>
+        
+        </div> -->
+
+<% for (let i=1; i <=page_no; i++) { %>
+
+    <%-include("page_id.ejs",{i}) %>
+        <% } %>

@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <style>
+          #tic {
+            text-align: center;
+            font-size: 200%;
+            font-family: sans-serif;
+          }
+          td:hover{
+    
+    background-color: rgb(161, 165, 165);
+   
+  }
+  td {
+    font-size: 50px;
+    text-align: center;
+    background-color: rgb(16, 107, 107);
+  }
+  
+            table,td{
+             
+                width: 25%;
+                height: 30%;
+              border: 2px solid black;
+              text-decoration: wavy;
+              text-decoration-color: rgb(102, 85, 65);
+              text-align: center;
+            
+            }
+            #div1{
+              position: static; 
+              margin-left: 600px;
+              margin-right: 10px;
+              margin-top: 100px;
+            }
+            #div2{
+              position: absolute; 
+              margin-left: 600px;
+              margin-right: 10px;
+              margin-top: 50px;
+            }
+            </style>
+    </head>
+    <body bgcolor="#BFBFBF">
+      <p id ="tic"> Tic-Tac-Toe</p>
+     <div>
+      <p id="show"> Left click for player : X<br>
+        Right Click For Player  : O
+      </p>
+      <p  id="move"></p>
+    </div>
+    <div id="div1">
+<table id ="tb1" name="tbd">
+    <tr id="tr1"> 
+        <td id="1" onclick="tulsi_X(this,this.id) ;tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()"> </td>
+        <td id="2" onclick="tulsi_X(this,this.id);tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()"> </td> 
+        <td id="3" onclick="tulsi_X(this,this.id);tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()"> </td>
+      </tr>
+      <tr id="tr2"> 
+        <td id="4" onclick="tulsi_X(this,this.id);tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()"> </td>
+        <td id="5" onclick="tulsi_X(this,this.id);tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()">  </td> 
+        <td id="6" onclick="tulsi_X(this,this.id);tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()"> </td>
+      </tr>
+      <tr id="tr3"> 
+        <td id="7" onclick="tulsi_X(this,this.id);tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()"> </td>
+        <td id="8" onclick="tulsi_X(this,this.id);tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()"> </td> 
+        <td id="9" onclick="tulsi_X(this,this.id);tulsi_mainfunction()" oncontextmenu="tulsi_O(this,this.id);tulsi_mainfunction()"> </td>
+      </tr>
+</table></div>
+<div id="div2">
+<p id="out"> </p>
+<p id="out1"> </p>
+
+</div>
+<script src="tiktac.js">
+  </script>
+  
+    </body>
+</html>

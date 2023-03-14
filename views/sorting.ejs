@@ -1,0 +1,88 @@
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+<style>
+    tr {
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: #cdd1f7;
+    }
+
+    th {
+        background-color:  rgb(131, 136, 202);
+    }
+
+    table {
+        height: 700px;
+        width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 50px;
+    }
+
+</style>
+</head>
+<body style="background: linear-gradient(to bottom, #f9fafa 0%, #cdd1f7 10%, #f9fafa 20%, #cdd1f7 30%, #f9fafa 40%, #cdd1f7 50%, #f9fafa 60%, #cdd1f7 70%, #f9fafa 80%, #cdd1f7 90%, #f9fafa 100%);" >
+
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>student id <a href="/sortdata?id=1&sort_by=student_id&sort=ASC"> ↑ </a><a
+                        href="/sortdata?id=1&sort_by=student_id&sort=DESC"> ↓ </a></th>
+                <th>First name <a href="/sortdata?id=1&sort_by=f_name&sort=ASC"> ↑ </a><a href="/sortdata?id=1&sort_by=f_name&sort=DESC"> ↓
+                    </a></th>
+                <th> Last name <a href="/sortdata?id=1&sort_by=l_name&sort=ASC"> ↑ </a><a href="/sortdata?id=1&sort_by=l_name&sort=DESC"> ↓
+                    </a></th>
+                <th>City <a href="/sortdata?id=1&sort_by=city&sort=ASC"> ↑ </a><a href="/sortdata?id=1&sort_by=city&sort=DESC"> ↓ </a></th>
+                <th>collage name <a href="/sortdata?id=1&sort_by=collage_name&sort=ASC"> ↑ </a><a
+                        href="/sortdata?id=1&sort_by=collage_name&sort=DESC"> ↓ </a></th>
+                <th>contact number <a href="/sortdata?id=1&sort_by=contact_no&sort=ASC"> ↑ </a><a
+                        href="/sortdata?id=1&sort_by=contact_no&sort=DESC"> ↓ </a></th>
+    
+            </tr>
+        </thead>
+        <tbody>
+            <% for (let i=0; i < data.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= data[i]['student_id']%>
+                    </td>
+                    <td>
+                        <%= data[i]['f_name']%>
+                    </td>
+                    <td>
+                        <%= data[i]['l_name'] %>
+                    </td>
+                    <td>
+                        <%= data[i]['city'] %>
+                    </td>
+                    <td>
+                        <%= data[i]['collage_name'] %>
+                    </td>
+                    <td>
+                        <%= data[i]['contact_no'] %>
+                    </td>
+                    <!-- <td><%= data.length %></td> -->
+    
+                </tr>
+                <% } %>
+        </tbody>
+    </table>
+    
+</body>
+</html>
+
+
+
+<% for (let i=1;i<=page_no; i++) { %>
+    <%-include("page_id.ejs",{i}) %>
+        <%}%>

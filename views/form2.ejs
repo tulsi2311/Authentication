@@ -1,0 +1,121 @@
+<style>
+    tr {
+        text-align: center;
+    }
+
+    tr:nth-child(even) {
+        background-color: bisque;
+    }
+
+    th {
+        background-color: bisque;
+    }
+
+    table {
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: auto;
+    }
+
+    .search-text {
+        text-align: center;
+        margin-left: 900px;
+        margin-right: auto;
+        margin-top: 0px;
+        margin-bottom: 50px;
+        border-color: black;
+        border-radius: 5px;
+        border-width: 2px;
+    }
+</style>
+
+
+
+<div>^<-- firstname <br>
+        $ <--lastname<br>
+            @ <--city<br>
+
+                ~ <--relation status </div>
+
+                    <form action="/get">
+
+
+                        <input class="search" type="text" placeholder="search Anything" name="search">
+                        <input type="submit" value="go">
+
+                        <!-- <select name="select" id="andor">
+     <option value="and">AND</option>
+     <option value="or">OR</option>
+   </select>  -->
+
+
+                        <table border="1">
+                            <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>first name</th>
+                                    <th> last Name</th>
+                                    <th>contact number</th>
+                                    <th>city</th>
+                                    <th>state</th>
+                                    <th>pin code </th>
+                                    <th>email</th>
+                                    <th>gender</th>
+                                    <th> date of bityh</th>
+                                    <th>cdesignation</th>
+                                    <th>relation status</th>
+                                    <th>time stamp</th>
+                                    <!-- <th>collage name</th> -->
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% for (let i=0; i < data.length; i++) { %>
+                                    <tr>
+                                        <td>
+                                            <%= data[i]['candidate_id']%>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['first_name']%>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['last_name'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['contact_no'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['city'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['state'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['pincode'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['email']%>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['gender'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['date_of_birth'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['designation'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['relation_status'] %>
+                                        </td>
+                                        <td>
+                                            <%= data[i]['time_stamp'] %>
+                                        </td>
+
+
+                                    </tr>
+                                    <% } %>
+
+                            </tbody>
+                        </table>
+                    </form>

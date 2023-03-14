@@ -1,0 +1,787 @@
+<html>
+
+<head>
+    <style>
+        #container {
+            display: flex;
+        }
+
+        #pre {
+            display: flex;
+        }
+
+        table {
+            font-family: Verdana;
+            font-size: large;
+        }
+
+        #pre2 {
+            margin-top: 10px;
+        }
+
+        legend {
+            font-family: Verdana;
+            font-size: x-large;
+        }
+
+        #container2 {
+            margin-left: 200px;
+        }
+
+        tr {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        body {
+            background: linear-gradient(to bottom, #fafaf9 0%, #727271 50%, #fafaf9 100%);
+        }
+    </style>
+</head>
+
+<body style="background: linear-gradient(to bottom, #f9fafa 0%, #cdd1f7 10%, #f9fafa 20%, #cdd1f7 30%, #f9fafa 40%, #cdd1f7 50%, #f9fafa 60%, #cdd1f7 70%, #f9fafa 80%, #cdd1f7 90%, #f9fafa 100%);" >
+
+
+    <form id="frm1" action="/update1" method="post">
+        <fieldset>
+            <legend>Basic Details</legend>
+            <div id="div1">
+                <table>
+                    <tr>
+                        <input type="text" name="id" id="id" value="<%= data[0].candidate_id%>" hidden>
+                        <td>First name :</td>
+                        <td><input type="text" id="fname" value="<%= data[0].first_name%>" name="fname"></td>
+                        <td>Last name:</td>
+                        <td><input type="text" id="lname" value="<%= data[0].last_name%>" name="lname"></td>
+                    </tr>
+
+
+                    <tr>
+                        <td>Designation :</td>
+                        <td><input type="text" value="<%= data[0].designation%>" id="des" name="des1"></td>
+                        <td>E-Mail</td>
+                        <td><input type="text" id="email" value="<%= data[0].email%>" name="mail1"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Contact Number:</td>
+                        <td><input type="text" id="cont" name="cont" value="<%= data[0].contact_no%>" name="con"></td>
+                        
+                        
+                        <td>Relationship status</td>
+                        <td> 
+                           
+                            <select name="relation" id="relation" >
+                                <% for(var i=0; i< datarel.length; i++ ) {%>
+                                    <option value =" <%= datarel[i].opt_value%>" >
+                                        <%= datarel[i].opt_value%>
+                                    </option>
+                                    <%} %>
+                            </select>
+                        </td>
+
+
+
+                      <tr>
+                        <td>state</td>
+                        <td>
+                            <select name="state" id="state" value="<%=data[0].state%>">
+                                <option hidden disabled selected value><%=staten[0].state%></option>
+
+                                <% for(var i=0; i<state.length; i++ ) {%>
+                                  
+                                    <option value="<%=state[i].id%>">
+                                        <%= state[i].state%>
+                                    </option>
+                                    <%}%>
+                            </select>
+                        </td>
+                        <td>City</td>
+                        <td>
+                        <select name="city" id="city" value="<%=data[0].city%>>
+                            <option hidden disabled selected value="data[0].city"><%= data[0].city%></option>
+                            
+                        </select></td>
+                    </tr>
+
+
+
+
+
+
+                    <tr>
+                        <td>Zipcode</td>
+                        <td><input type="text" value="<%= data[0].pincode%>" id="pin" name="pin"></td>
+
+                        <td>Date of birth</td>
+                        <td><input type="date" id="date" value="<%= data[0].date_of_birth%>" name="date"></td>
+                    </tr>
+                    <tr>
+                     <td>Gender :
+                        <%if(data[0].gender==""){%>
+                            <input type="radio" name="gender" value="male" checked />Male
+                            <input type="radio" name="gender" value="female" />Female
+                            <input type="radio" name="gender" value="other" />other 
+                            <%}%>
+
+                            <%if(data[0].gender=="male"){%>
+                                <input type="radio" name="gender" value="male" checked />Male
+                                <input type="radio" name="gender" value="female" />Female
+                                <input type="radio" name="gender" value="other" />other 
+                                <%}%>
+                                <%if(data[0].gender=="female"){%>
+                                <input type="radio" name="gender" value="male" />Male
+                                <input type="radio" name="gender" value="female" checked />Female
+                                <input type="radio" name="gender" value="other" />other
+                                <%}%>
+                                <%if(data[0].gender=="other"){%>
+                                <input type="radio" name="gender" value="male" />Male
+                                <input type="radio" name="gender" value="female" />Female
+                                <input type="radio" name="gender" value="other" checked />other
+                                <%}%>
+
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+        </fieldset>
+
+
+
+
+        <div id="div1">
+           
+<fieldset>
+    <table id="xyz1">
+    <legend>Education Details:</legend>
+    
+    <%if(dataedu.length>=1){%>
+        
+    <% for(var i=0; i<dataedu.length; i++ ){%>
+    <tr>
+    
+    <td><label>Name of course:</label></td>
+    <td><select  id="cource" name="cource">
+    
+    <%if(dataedu[i].cource_name=="MBA" ||
+    dataedu[i].cource_name=="BBA" ||
+    dataedu[i].cource_name=="B.Tech" ||
+    dataedu[i].cource_name=="B.Arch" ||
+    dataedu[i].cource_name=="M.Tech" ||
+    dataedu[i].cource_name=="BE" ||
+    dataedu[i].cource_name=="ME"){%>
+    
+    <option >
+      <%=dataedu[i].cource_name%></option>
+    
+    <%}%>
+    <% for(var j=0; j<data3.length; j++) {%>
+    <option ><%=data3[j].opt_value%></option>
+    <%}
+    %>
+    </select></td>
+    
+    <td><label>Name of Board:</label></td>
+    <td><select id="board" name="board">
+    
+    <%if(dataedu[i].board_name=="State Boards" ||
+    dataedu[i].board_name=="CBSE" ||
+    dataedu[i].board_name=="CISCE" ||
+    dataedu[i].board_name=="NIOS" ||
+    dataedu[i].board_name=="IB" ||
+    dataedu[i].board_name=="CIE" ||
+    dataedu[i].board_name=="GACB"){%>
+    
+    <option> <%=dataedu[i].board_name%> </option>
+    
+    <%}%>
+    
+    <% for(var j=0; j<data4.length; j++) {%>
+    <option >
+      <%=data4[j].opt_value%></option>
+    <%} %>
+    </select></td>
+    
+    <td><label for="">passing Year:</label></td>
+    <td><input type="text" id="passing_year" name="py" value ="<%=dataedu[i].passing_year%>"></td>
+    <td><label for="">percentage:</label></td> 
+
+    <td><input type="text" id="percentage" name="per" value ="<%=dataedu[i].percentage%>"></td>
+    </tr>
+    <%}%>
+    
+    <%}%>
+    <tr id="edu1"></tr>
+    <tr id="edu2"></tr>
+    <tr id="edu3"></tr>
+    <tr id="edu4"></tr>
+    
+    <td><input type="button" value="+" id="sub1" onclick="edu()">
+    </td>
+    </table>
+    </fieldset>
+        </div>
+
+
+
+
+
+
+        <fieldset>
+            <legend>Work Experience</legend>
+            <div id="div1">
+
+                <table>
+                    <%if(dataexp.length>=1){%>
+        
+                        <% for(var i=0; i<dataexp.length; i++ ){%>
+                    <tr>
+                        <td>Company name :</td>
+                        <td><input type="text" id="cname1" name="cname"  value="<%=dataexp[i].candidate_name%>"> 
+                        </td>
+                        <td>Designation :</td>
+                        <td><input type="text" id="desi2" name="desi2" value="<%=dataexp[i].designation%>"></td>
+
+                        <td>Experience From </td>
+                        <td><input type="date" id="ex11" name="ex" value="<%=dataexp[i].experience_from%>"></td>
+                        <td>To :</td>
+                        <td><input type="date" id="ex21" name="ex1" value="<%=dataexp[i].experience_to%>"></td>
+                    </tr>
+                    <%}%>
+                    
+                    <%}%>
+                    <td><input type="button" id="workexp" value="+" onclick="exp()"></td>
+                    <tr id="exp"></tr>
+                    <tr id="exp2"></tr>
+                    <tr id="exp3"></tr>
+                    <tr id="exp4"></tr>
+                </table>
+            </div>
+        </fieldset>
+
+
+
+
+
+    <div id="container">
+            <div id="container1">
+                <fieldset>
+                    <legend>Language Known</legend>
+                    <div>
+                        <table>
+
+                            <% let k=0 %>
+                            <%let flag = 0%>
+
+                            <tr>
+
+               							 <% if(datalan.length>=1) {%>
+
+                                <%for(i=0;i< data7.length;i++) {%>
+                                    <div>
+
+                                        <%if(flag!=1){%>
+
+                                            <% if(datalan[k]['language_name']==data7[i]['opt_value'] ){ %>
+
+                                                <%if(k<datalan.length){%>
+
+                                        <input type="checkbox" id="<%=data7[i].opt_value%>" name="language"
+                                            value="<%=data7[i].opt_value%>"  checked/>
+
+                                        <label for="<%=data7[i].opt_value%>">
+                                            <%=data7[i].opt_value%>:
+                                        </label>
+
+                                        <% if(datalan[k]['read_status']=='yes') {%>
+                                        <input type="checkbox" id="read" name="read" value="<%=data7[i].opt_value%>" checked/>
+                                        <%}%>
+
+                                        <% if(datalan[k]['read_status']!='yes') {%>
+                                            <input type="checkbox" id="read" name="read" value="<%=data7[i].opt_value%>" />
+                                            <%}%>
+                                        <label for="read">Read:</label>
+
+                                        <% if(datalan[k]['write_status']=='yes') {%>
+                                        <input type="checkbox" id="write" name="write" value="<%=data7[i].opt_value%>" checked/>
+                                        <%}%>
+
+                                        <% if(datalan[k]['write_status']!='yes') {%>
+                                            <input type="checkbox" id="write" name="write" value="<%=data7[i].opt_value%>" />
+                                            <%}%>
+                                        <label for="write">Write:</label>
+
+                                        <% if(datalan[k]['speak_status']=='yes') {%>
+                                        <input type="checkbox" id="speak" name="speak" value="<%=data7[i].opt_value%>" checked/>
+                                        <%}%>
+
+                                        <% if(datalan[k]['speak_status']!='yes') {%>
+                                            <input type="checkbox" id="speak" name="speak" value="<%=data7[i].opt_value%>" />
+                                            <%}%>
+                                        <label for="speak">Speak:</label>
+                                    <%}%>
+
+                                    <%k=k+1%>
+                                    <%if(k>=datalan.length){
+                                        flag=1;
+                                        continue;   
+                                    }%>
+
+                                    <%if(k<datalan.length){ continue}%>
+                                 <%}%>
+                                <%}%>
+
+                                 <%if(flag==0||flag==1){%>
+                                    <input type="checkbox" id="<%=data7[i].opt_value%>" name="language"
+                                            value="<%=data7[i].opt_value%>"  />
+
+                                        <label for="<%=data7[i].opt_value%>">
+                                            <%=data7[i].opt_value%>:
+                                        </label>
+
+                                        <input type="checkbox" id="read" name="read" value="<%=data7[i].opt_value%>" />
+                                        <label for="read">Read:</label>
+
+                                        <input type="checkbox" id="write" name="write" value="<%=data7[i].opt_value%>" />
+                                        <label for="write">Write:</label>
+
+                                        <input type="checkbox" id="speak" name="speak" value="<%=data7[i].opt_value%>" />
+                                        <label for="speak">Speak:</label>
+                                        <%}%>
+
+                                    </div>
+                                    <%}%>
+                    <%}%>
+
+
+                    <% if(datalan.length==0) {%>
+
+                        <%for(i=0;i< data7.length;i++) {%>
+                            <tr>
+                                <td>
+                            <input type="checkbox" id="<%=data7[i].opt_value%>" name="language"
+                                            value="<%=data7[i].opt_value%>"  />
+
+                                        <label for="<%=data7[i].opt_value%>">
+                                            <%=data7[i].opt_value%>:
+                                        </label>
+                                </td>
+                                <td>
+
+                                        <input type="checkbox" id="read" name="read" value="<%=data7[i].opt_value%>" />
+                                        <label for="read">Read:</label>
+                                </td>
+                                <td>
+                                        <input type="checkbox" id="write" name="write" value="<%=data7[i].opt_value%>" />
+                                        <label for="write">Write:</label>
+                                </td>
+                                <td>
+                                        <input type="checkbox" id="speak" name="speak" value="<%=data7[i].opt_value%>" />
+                                        <label for="speak">Speak:</label>
+
+                                </td>
+                                        </tr>
+                                        <%}%>
+
+                        <%}%>
+
+                            </tr>
+                        </table>
+                    </div>
+                </fieldset>
+        </div>
+
+        <div id="container">
+            <div id="container2">
+        <fieldset>
+            <legend>Technologies Know</legend>
+            <div>
+                <table>
+                    <tr>
+        
+                        <% let w=0 %>
+                        <%let flags = 0%>
+        
+        <% if(datatec.length>=1) {%>
+        
+                        <%for(i=0;i< data8.length;i++) {%>
+                            <div>
+                            <%if(flags!=1){%>
+        
+                                <% if(datatec[w]['technology_name']==data8[i]['opt_value'] ){ %>
+                                    <%if(w<datatec.length){%>
+                                            
+                                        <input type="checkbox" id="<%=data8[i].opt_value%>" name="tacname"
+                                            value="<%=data8[i].opt_value%>" checked/>
+                                        <label for="<%=data8[i].opt_value%>">
+                                            <%=data8[i].opt_value%>:
+                                        </label>
+                                        
+                                        <% if(datatec[w]['technology_konwn']=='beginer') {%>
+                                        <input type="radio" id="beg" name="<%=data8[i].opt_value%>" value="beginer" checked>Beginer
+                                        <%}%>
+                                        
+        
+                                        
+                                        <% if(datatec[w]['technology_konwn']!='beginer') {%>
+                                            <input type="radio" id="beg" name="<%=data8[i].opt_value%>" value="beginer">Beginer
+                                            <%}%>
+                                        
+        
+                                        
+                                            <% if(datatec[w]['technology_konwn']=='mideator') {%>
+                                        <input type="radio" id="mid" name="<%=data8[i].opt_value%>"value="mideator" checked>Mideator
+                                            <%}%>
+                                        
+        
+                                            <% if(datatec[w]['technology_konwn']!='mideator') {%>
+                                                <input type="radio" id="mid" name="<%=data8[i].opt_value%>"value="mideator">Mideator
+                                                    <%}%>
+        
+                                                    <% if(datatec[w]['technology_konwn']=='expert') {%>
+                                                    <input type="radio" id="expr" name="<%=data8[i].opt_value%>" value="expert" checked>Expert
+                                                    <%}%>
+        
+                                                    <% if(datatec[w]['technology_konwn']!='expert') {%>
+                                                        <input type="radio" id="expr" name="<%=data8[i].opt_value%>" value="expert">Expert
+                                              <%}%>
+        
+                                    <%}%>
+                                    <%w=w+1%>
+                                    <%if(w>=datatec.length){
+                                        flags=1;
+                                        continue;   
+                                    }%>
+                                    <%if(w<datatec.length){
+                                        continue;   
+                                    }%>
+                                    <%}%>
+                                    <%}%>
+                                    <%if(flags==0||flags==1){%>
+                                        
+                                            
+                                        <input type="checkbox" id="<%=data8[i].opt_value%>" name="tacname"
+                                        value="<%=data8[i].opt_value%>" />
+                                        <label for="<%=data8[i].opt_value%>">
+                                            <%=data8[i].opt_value%>:
+                                        </label>
+        
+                                            
+                                        <input type="radio" id="beg" name="<%=data8[i].opt_value%>" value="beginer" >Beginer
+                                        <input type="radio" id="mid" name="<%=data8[i].opt_value%>"value="mideator" >Mideator
+                                        <input type="radio" id="expr" name="<%=data8[i].opt_value%>" value="expert">Expert
+                                        
+        
+                                        <%}%>
+                                    </div> 
+                         <%}%>
+                            
+                    </tr>
+                    <%}%>
+        
+                    <% if(datatec.length==0) {%>
+                        <%for(i=0;i< data8.length;i++) {%>
+                            <div>
+                                <tr>
+        
+                                <input type="checkbox" id="<%=data8[i].opt_value%>" name="tacname"
+                                value="<%=data8[i].opt_value%>" />
+                                <label for="<%=data8[i].opt_value%>">
+                                    <%=data8[i].opt_value%>:
+                                </label>
+        
+                                    <input type="radio" id="beg" name="<%=data8[i].opt_value%>" value="beginer" >Beginer
+                                    <input type="radio" id="mid" name="<%=data8[i].opt_value%>"value="mideator" >Mideator
+                                
+                                    <input type="radio" id="expr" name="<%=data8[i].opt_value%>" value="expert">Expert
+                                
+                                </tr>
+                            </div>
+        
+                            <%}%>
+                        <%}%>
+        
+        
+                </table>
+            </div>
+        </fieldset>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <fieldset>
+            <legend>Referrance Contact</legend>
+            <div id="div1">
+                <table>
+                    
+                    <%if(dataref.length>1){%>
+                        <tr>
+                        <td>Name:<input type="text" id="refname" name="refname1" value="<%= dataref[0].contact_name%>"> </td>
+                        <td>Contact Number:<input type="text" id="refnum" name="refnum1" value="<%= dataref[0].contact_number%>" ></td>
+                        <td>Relation:<input type="text" id="refrel" name="refrel1" value="<%= dataref[0].contact_relation%>" ></td>
+                        </tr>
+                        <tr>
+                            <td>Name:<input type="text" id="refname" name="refname2" value="<%= dataref[1].contact_name%> "> </td>
+                            <td>Contact Number:<input type="text" id="refnum" name="refnum2" value="<%= dataref[1].contact_number%>" ></td>
+                            <td>Relation:<input type="text" id="refrel" name="refrel2" value="<%= dataref[1].contact_relation%>" ></td>
+                            </tr>
+                        <%}%>
+                        <%if(dataref.length=1){%>
+                            <tr>
+                            <td>Name:<input type="text" id="refname" name="refname1" value="<%= dataref[0].contact_name%>"> </td>
+                            <td>Contact Number:<input type="text" id="refnum" name="refnum1" value="<%= dataref[0].contact_number%>" ></td>
+                            <td>Relation:<input type="text" id="refrel" name="refrel1" value="<%= dataref[0].contact_relation%>" ></td>
+                            </tr>
+                            <tr>
+                                <td>Name:<input type="text" id="refname" name="refname2" value=" "> </td>
+                                <td>Contact Number:<input type="text" id="refnum" name="refnum2" value="" ></td>
+                                <td>Relation:<input type="text" id="refrel" name="refrel2" value="" ></td>
+                                </tr>
+                            <%}%>
+                        <%if(dataref.length=0){%>
+                            <tr>
+                            <td>Name:<input type="text" id="refname" name="refname1" value=""> </td>
+                            <td>Contact Number:<input type="text" id="refnum" name="refnum1" value="" ></td>
+                            <td>Relation:<input type="text" id="refrel" name="refrel1" value="" ></td>
+                            </tr>
+                            <tr>
+                                <td>Name:<input type="text" id="refname" name="refname2" value=""> </td>
+                                <td>Contact Number:<input type="text" id="refnum" name="refnum2" value=">" ></td>
+                                <td>Relation:<input type="text" id="refrel" name="refrel2" value="" ></td>
+                                </tr>
+                            <%}%>
+                           
+                       
+                   
+                   
+            </div>
+            </table>
+        </fieldset>
+
+
+
+
+
+
+
+        <fieldset>
+            <legend>Preferance</legend>
+            <div id="div1">
+                <div id="pre">
+                    <div id="pre1">
+                        <table>
+                            <tr>
+                    <td>Preferd Location : <select name="location" id="location" >
+                        <option>
+                            <%= datapref[0]. preferd_location%></option>
+                                        <% for(var i=0; i<data6.length; i++ ){%>
+                                            <option>
+                                                <%= data6[i].opt_value%>
+                                            </option>
+                                            <%} %>
+                                </td>
+         <td>Notice Period : <input type="text" id="prenot" name="prenot" value="<%= datapref[0].notice_period%>"> </td>
+                            </tr>
+
+                            <tr>
+        <td>Expected CTC : <input type="text" id="preectc" name="preectc"  value="<%= datapref[0].expacted_ctc%>">
+         </td>
+                    <td>Current CTC : <input type="text" id="precctc" name="precctc" value="<%= datapref[0].current_ctc%>"> </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div id="pre2">
+                        <table>
+                            <tr>
+                                <td>Department : </td>
+                                <td><select name="department" id="department" >
+                                    <option>
+                                        <%= datapref[0].department%></option>
+                                        <% for(var i=0; i<data5.length; i++ ){%>
+                                            <option>
+                                                <%= data5[i].opt_value%>
+                                            </option>
+                                            <%} %>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<center><input type="submit" value="submit" name="submit"></center>
+</form>
+</body>
+<script>
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+        const stateSelect = document.getElementById('state');
+        const citySelect = document.getElementById('city');
+
+        stateSelect.addEventListener('change', () => {
+            const stateId = stateSelect.value;
+            console.log(stateId)
+            fetch(`/cities?stateId=${stateId}`)
+                .then(response => response.json())
+                .then(cities => {
+                    citySelect.innerHTML = '';
+                    cities.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.city;
+                        option.text = city.city;
+                        citySelect.add(option);
+                    });
+                });
+        });
+    });
+
+
+
+
+    var y = 1;
+    var d = "";
+    function edu() {
+        var row1 = document.getElementById("edu1")
+        var row2 = document.getElementById("edu2")
+        var row3 = document.getElementById("edu3")
+        var row4 = document.getElementById("edu4")
+        if (y == 1) {
+            d += "<td>Name Of Corse:</td>  <td> <select name='cource' id='cource'>   <% for(var i=0; i<data3.length; i++ ){%>    <option ><%= data3[i].opt_value%></option> <%} %> </select></td> <td>Name Of Board:</td>  <td> <select name='board' id='board'>    <% for(var i=0; i<data4.length; i++ ){%>  <option ><%= data4[i].opt_value%></option> <%} %> </select></td> <td>passing year</td><td><input type='text' id='py' name ='py'></td><td>persentage :</td><td><input type='text' id='per' name ='per'></td>";
+            row1.innerHTML = d;
+            console.log(d);
+        }
+
+        if (y == 2) {
+            d = "<td>Name Of Corse:</td>  <td> <select name='cource' id='cource'> <% for(var i=0; i<data3.length; i++ ){%>   <option ><%= data3[i].opt_value%></option> <%} %> </select></td> <td>Name Of Board:</td>  <td> <select name='board' id='board'>    <% for(var i=0; i<data4.length; i++ ){%>  <option><%= data4[i].opt_value%></option> <%} %> </select></td> <td>passing year</td><td><input type='text' id='py' name ='py'></td><td>persentage :</td><td><input type='text' id='per' name ='per'></td>";
+            row2.innerHTML = d;
+            console.log(d);
+
+        }
+
+        if (y == 3) {
+            d = "<td>Name Of Corse:</td>  <td> <select name='cource' id='cource'>  <% for(var i=0; i<data3.length; i++ ){%>   <option ><%= data3[i].opt_value%></option> <%} %> </select></td> <td>Name Of Board:</td>  <td> <select name='board' id='board'>    <% for(var i=0; i<data4.length; i++ ){%>  <option ><%= data4[i].opt_value%></option> <%} %> </select></td> <td>passing year</td><td><input type='text' id='py' name ='py'></td><td>persentage :</td><td><input type='text' id='per' name ='per'></td>";
+            row3.innerHTML = d;
+            console.log(d);
+
+        }
+
+        if (y == 4) {
+            d = "<td>Name Of Corse:</td>  <td> <select name='cource' id='cource'>   <% for(var i=0; i<data3.length; i++ ){%>  <option ><%= data3[i].opt_value%></option> <%} %> </select></td> <td>Name Of Board:</td>  <td> <select name='board' id='board'>    <% for(var i=0; i<data4.length; i++ ){%>  <option><%= data4[i].opt_value%></option> <%} %> </select></td> <td>passing year</td><td><input type='text' id='py' name ='py'></td><td>persentage :</td><td><input type='text' id='per' name ='per'></td>";
+            row4.innerHTML = d;
+            console.log(d);
+
+        }
+        y = y + 1
+    }
+
+
+
+
+
+
+    var x = 1;
+    var t = "";
+    function exp() {
+        var row1 = document.getElementById("exp")
+        var row2 = document.getElementById("exp2")
+        var row3 = document.getElementById("exp3")
+        var row4 = document.getElementById("exp4")
+        if (x == 1) {
+
+            t += "<td>company name :</td><td><input type='text' id='cname2' name ='cname'></td><td>Designation :</td><td><input type='text' id='desi22' name ='desi2'></td><td>experience from </td><td><input type='date' id='ex12' name ='ex'></td><td>to :</td><td><input type='date' id='ex22' name ='ex1'></td>";
+
+            row1.innerHTML = t
+            console.log(t)
+        }
+
+        if (x == 2) {
+            t = "<td>company name :</td><td><input type='text' id='cname3' name ='cname'></td><td>Designation :</td><td><input type='text' id='desi23' name ='desi2'></td><td>experience from </td><td><input type='date' id='ex13' name ='ex'></td><td>to :</td><td><input type='date' id='ex23' name ='ex1'></td>";
+
+            row2.innerHTML = t
+            console.log(t)
+        }
+
+        if (x == 3) {
+            t = "<td>company name :</td><td><input type='text' id='cname4' name ='cname'></td><td>Designation :</td><td><input type='text' id='desi24' name ='desi2'></td><td>experience from </td><td><input type='date' id='ex14' name ='ex'></td><td>to :</td><td><input type='date' id='ex24' name ='ex1'></td>";
+
+            row3.innerHTML = t
+            console.log(t)
+        }
+
+        if (x == 4) {
+            t = "<td>company name :</td><td><input type='text' id='cname5' name ='cname'></td><td>Designation :</td><td><input type='text' id='desi25' name ='desi2'></td><td>experience from </td><td><input type='date' id='ex15' name ='ex'></td><td>to :</td><td><input type='date' id='ex25' name ='ex1'></td>";
+
+            row4.innerHTML = t
+            console.log(t)
+
+        }
+        x = x + 1
+    }
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

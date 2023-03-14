@@ -1,0 +1,161 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input{
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+       
+p{
+             background-color: rgb(131, 136, 202);  
+}
+#add{
+    margin-left: 500px ;
+    margin-right: 500px;
+    cursor: pointer;
+           height: 30px;
+           width: 70px;
+             background-color: rgb(131, 136, 202);     
+}
+#sub{
+    margin-left: 480px ;
+    margin-right: 500px;
+    cursor: pointer;
+           height: 30px;
+           width: 70px;
+             background-color: rgb(131, 136, 202);     
+}
+   tr{
+        background-color: #cdd1f7;
+    }
+    
+    th{
+        background-color:  rgb(131, 136, 202);
+    }
+    td{
+        padding-top: 0px;
+            padding-bottom: 0px;
+    }
+    .tb1{
+        width: 100%;
+    }
+    </style>
+</head>
+
+<body style="background: linear-gradient(to bottom, #f9fafa 0%, #cdd1f7 10%, #f9fafa 20%, #cdd1f7 30%, #f9fafa 40%, #cdd1f7 50%, #f9fafa 60%, #cdd1f7 70%, #f9fafa 80%, #cdd1f7 90%, #f9fafa 100%);" >
+    <form action="/saveAll" method="post">
+    <!-- <form action="/save"> -->
+    <table id="row" name="table" class="tb1">
+        <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Email</th>
+            <th>Phone</th>
+        </tr>
+       
+            <%for(let i=0; i<users.length; i++){%>
+                <tr>
+                    <td>
+                        <input type="text" value="<%=users[i].id%>" name="user_id"  size="1px" >
+                    </td>
+                   
+                    <td>
+                        <input type="text" name="first_name" value="<%=users[i].first_name%>"
+                            id="fname<%=users[i].id%>">
+                    </td>
+                    <td>
+                        <input type="text" name="last_name" value="<%=users[i].last_name%>" id="lname<%=users[i].id%>">
+                    </td>
+                    <td>
+                        <input type="text" name="gender" value="<%=users[i].gender%>" id="gen<%=users[i].id%>">
+                    </td>
+                    <td>
+                        <input type="text" name="email" value="<%=users[i].email%>" id="email<%=users[i].id%>">
+                    </td>
+                    <td>
+                        <input type="text" name="phone" value="<%=users[i].phone%>" id="phone<%=users[i].id%>">
+                    </td>
+                    <td><p onclick="edit(`<%=users[i].id%>`)">Save</p></td>
+                 
+                </tr>
+                <%}%>
+               
+                
+</table>
+
+<td>
+    <span id="add" onclick="addRow()" >| + |</span><br>
+    <br>
+    <input type="submit" name="submit" id="sub" value="save all" onclick="add_all()"> </td>
+            
+
+    </form>
+</body>
+<script>
+    function addRow() {
+        var row = document.getElementById("row");
+        const item =document.createElement("tr");
+        item.classList.add("row-item")
+      
+        item.innerHTML = `
+      
+                    <td></td>
+                    <td>
+                    <input type="text" name="nfirst_name" value="" id="fname">
+                    </td>
+                    <td>
+                        <input type="text" name="nlast_name" value="" id="lname">
+                    </td>
+                    <td>
+                        <input type="text" name="ngender" value="" id="gen">
+                    </td>
+                    <td>
+                        <input type="text" name="nemail" value="" id="email">
+                    </td>
+                    <td>
+                        <input type="text" name="nphone" value="" id="phone">
+                    </td>
+                    <td><p onclick="add()">Save</p></td>
+            
+        `;
+        row.appendChild(item);
+     
+  
+
+}
+    async function edit(id) {
+        var id = id;
+        var first_name = document.getElementById(`fname${id}`).value;
+        var last_name = document.getElementById(`lname${id}`).value;
+        var gender = document.getElementById(`gen${id}`).value;
+        var email = document.getElementById(`email${id}`).value;
+        var phone = document.getElementById(`phone${id}`).value;
+        fetch(`http://localhost:8080/save?id=${id}&first_name=${first_name}&last_name=${last_name}&gender=${gender}&email=${email}&phone=${phone}`);
+        location.reload(`http://localhost:8080/exl`)
+    }
+    async function add(){
+        var first_name = document.getElementById("fname").value;
+        var last_name = document.getElementById("lname").value;
+        var gender = document.getElementById("gen").value;
+        var email = document.getElementById("email").value;
+        var  phone = document.getElementById("phone").value;
+        fetch(`http://localhost:8080/add?first_name=${first_name}&last_name=${last_name}&gender=${gender}&email=${email}&phone=${phone}`);
+       
+    }
+   
+   
+   
+
+</script>
+
+</html>
