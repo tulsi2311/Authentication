@@ -175,6 +175,12 @@ app.post('/tableall', (req, res) => {
   app.set("views", "./views");
   
   app.get("/sortdata", (req, res) => {
+
+    const jwtToken = req.cookies.jwtToken;
+    if (!jwtToken) {
+        return res.send(`you are not authorized register first <a href="/login">login</a>`)
+    }
+    const tokendata = jwt.verify(jwtToken, "tulsi")
     var limit = 10;
     var data = ""
    
@@ -358,6 +364,7 @@ app.get('/home', (req, res) => {
 
 
 app.get("/logout", (req, res) => {
+    
     res.clearCookie("jwttoken");
     res.redirect("/")
 })
@@ -457,6 +464,11 @@ app.get('/search', function (req, res) {
 //--------------------------------------------------------------------------------------------------------------------
 
 app.get("/page", (req, res) => {
+    const jwtToken = req.cookies.jwtToken;
+    if (!jwtToken) {
+        return res.send(`you are not authorized register first <a href="/login">login</a>`)
+    }
+    const tokendata = jwt.verify(jwtToken, "tulsi")
     var ajaxx = req.query.ajax || false
     var limit = 10;
     var data = ""
@@ -877,7 +889,11 @@ const conexl = mysql.createConnection({
   });
 
 app.get('/exl',(req,res)=>{
-
+    const jwtToken = req.cookies.jwtToken;
+    if (!jwtToken) {
+        return res.send(`you are not authorized register first <a href="/login">login</a>`)
+    }
+    const tokendata = jwt.verify(jwtToken, "tulsi")
 
 
     var finame =req.query.first_name
@@ -1170,6 +1186,11 @@ app.post('/postform', function (req, res) {
 
 
 app.get("/form1", (req, res) => {
+    const jwtToken = req.cookies.jwtToken;
+    if (!jwtToken) {
+        return res.send(`you are not authorized register first <a href="/login">login</a>`)
+    }
+    const tokendata = jwt.verify(jwtToken, "tulsi")
     var sql1 = `select * from state_master`;
     var sql2 = `select opt_value from option_master inner join select_master on option_master.select_id=select_master.select_id where option_master.select_id=2`;
     var sql3 = `select opt_value from option_master inner join select_master on option_master.select_id=select_master.select_id where option_master.select_id=3`;
@@ -1226,3 +1247,18 @@ app.get('/cities', (req, res) => {
         }
     });
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
