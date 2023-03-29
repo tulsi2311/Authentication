@@ -26,15 +26,16 @@ const connection = mysql.createConnection({
     user: "root",
     password: "root",
     database: "student_exp"
-  });
+});
+
 
 
 connection.connect(function (err) {
     if (err) throw err;
     console.log("Connected to the database!");
-  });
-  
-  var conn = mysql.createConnection(
+});
+
+var conn = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',
@@ -56,158 +57,29 @@ conn.connect(function (err) {
 
 
 
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-
-app.get('/serchdel', function (req, res) {
-    var search = req.query.search || '';
-    var firstname = "";
-    var lastname = "";
-    var cities = "";
-    var re_status = "";
-
-
-    var f_name = search.split('^');
-    var l_name = search.split('$');
-    var city = search.split('@');
-    var relationship_status = search.split('~');
-
-
-    if (f_name.length > 1) {
-        for (var i = 0; i < f_name[1].length; i++) {
-            if (f_name[1].charAt(i) == '$' || f_name[1].charAt(i) == '@' || f_name[1].charAt(i) == '~' || f_name[1].charAt(i) == '*' || f_name[1].charAt(i) == '+' || f_name[1].charAt(i) == '#' || f_name[1].charAt(i) == '^')
-                break;
-            else
-                firstname += f_name[1].charAt(i)
-        }
-        console.log(firstname);
-    }
-
-    if (l_name.length > 1) {
-        for (let i = 0; i < l_name[1].length; i++) {
-            if (l_name[1].charAt(i) == '$' || l_name[1].charAt(i) == '@' || l_name[1].charAt(i) == '~' || l_name[1].charAt(i) == '*' || l_name[1].charAt(i) == '+' || l_name[1].charAt(i) == '#' || l_name[1].charAt(i) == '^')
-                break;
-            else
-                lastname += l_name[1].charAt(i)
-        }
-        console.log(lastname);
-    }
-    if (city.length > 1) {
-        for (let i = 0; i < city[1].length; i++) {
-            if (city[1].charAt(i) == '$' || city[1].charAt(i) == '@' || city[1].charAt(i) == '~' || city[1].charAt(i) == '*' || city[1].charAt(i) == '+' || city[1].charAt(i) == '#' || city[1].charAt(i) == '^')
-                break;
-            else
-                cities += city[1].charAt(i)
-        }
-        console.log(cities);
-    }
-
-
-    if (relationship_status.length > 1) {
-        for (let i = 0; i < relationship_status[1].length; i++) {
-            if (relationship_status[1].charAt(i) == '$' || relationship_status[1].charAt(i) == '@' || relationship_status[1].charAt(i) == '~' || relationship_status[1].charAt(i) == '*' || relationship_status[1].charAt(i) == '+' || relationship_status[1].charAt(i) == '#' || relationship_status[1].charAt(i) == '^')
-                break;
-            else
-                re_status += relationship_status[1].charAt(i)
-        }
-        console.log(re_status);
-    }
-
-
-    var sql = `SELECT * FROM job_application.candidate_details WHERE last_name LIKE '%${lastname}%' AND first_name LIKE'%${firstname}%' AND city LIKE '%${cities}%'AND relation_status LIKE '%${re_status}%' AND is_delete = 0  LIMIT 0, 10;`
-
-    console.log(firstname)
-    console.log(sql)
-    conn.query(sql, (err, dataprt) => {
-        if (err) throw err;
-
-        res.render('table.ejs', { dataprt });
-    });
-
-})
-
-
-app.post('/table', (req, res) => {
-
-    var id = req.query.id
-    console.log(id)
-
-    //sqlprt=`select * from job_application.candidate_details  where is_delete = 0;`
-    var sqldel = `update job_application.candidate_details set is_delete = 1 where candidate_id in ('${id}'); `
-    conn.query(sqldel, (err, data) => {
-        if (err) throw err
-        else {
-            res.json({ data });
-        }
-    })
-})
-
-
-app.post('/tableall', (req, res) => {
-
-    var id = req.query.id
-    console.log(id)
-
-    // dele = eval("req.body."+ tacname[i]);
-    //sqlprt=`select * from job_application.candidate_details  where is_delete = 0;`
-    var sqldel = `update job_application.candidate_details set is_delete = 1 where candidate_id in (${id}); `
-    conn.query(sqldel, (err, data) => {
-        if (err) throw err
-        else {
-            res.json({ data });
-        }
-    })
-})
-
-
-
-
-
-
-//=============================================================================
-
-  let sql = "SELECT * FROM student_express limit 0,10";
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-  });
-  
-  app.set("view engine", "ejs");
-  app.set("views", "./views");
-  
-  app.get("/sortdata", (req, res) => {
+app.get('/design', (req, res) => {
 
     const jwtToken = req.cookies.jwtToken;
     if (!jwtToken) {
         return res.send(`you are not authorized register first <a href="/login">login</a>`)
     }
     const tokendata = jwt.verify(jwtToken, "tulsi")
-    var limit = 10;
-    var data = ""
-   
-    var page_no = 0;
-    var a = req.query.id
-    var offset = (a - 1) * limit || 0
-    var a = req.query.id
-    var order = req.query.sort || "ASC"
-    var cs = req.query.sort_by || 'student_id'
-    console.log(cs)
-  
-    connection.query(`SELECT count(student_id) as count from student_express ;`, (err, result) => {
-      // console.log(result)
-      page_no = Math.ceil(result[0].count / limit)
-    });
-  
-    connection.query(`select * from student_express order by ${cs} ${order} limit ${offset},${limit} `, (err, result) => {
-      if (err) throw err;
-      data = result;
-      console.log(data)
-    });
-  
-  
-    setTimeout(() => {
-      res.render("sorting", { page_no, data, cs, a, order });
-    }, 1000);
-  });
+    res.render("design")
+})
+
+
+
+app.get('/tictac', (req, res) => {
+
+    const jwtToken = req.cookies.jwtToken;
+    if (!jwtToken) {
+        return res.send(`you are not authorized register first <a href="/login">login</a>`)
+    }
+    const tokendata = jwt.verify(jwtToken, "tulsi")
+    res.render("tictac")
+})
 
 
 
@@ -215,7 +87,7 @@ app.post('/tableall', (req, res) => {
 
 
 
-  ;
+//==================================================================================================
 // Connect to the database
 con.connect((err) => {
     if (err) {
@@ -237,7 +109,7 @@ app.post('/reg', async (req, res) => {
     console.log(password)
     var hashp = await bcrypt.hash(password, 10);
     console.log(hashp);
-   
+
     var varifyUser = `select * from registretion_data where email = '${email}'`;
     var result = await query(varifyUser);
     console.log(result);
@@ -260,28 +132,28 @@ app.post('/reg', async (req, res) => {
 
 })
 
-app.get("/activate?",(req,res)=>{
+app.get("/activate?", (req, res) => {
     const actKey = req.query.token;
     sql = `update registretion_data set activated = 1 where activation_token = "${actKey}"`;
     var result = con.query(sql);
     console.log("result");
     console.log(result);
-    if(result.affectedRows == 0){
+    if (result.affectedRows == 0) {
         res.send("invalid activation link");
-    }else{
+    } else {
         res.redirect("/login");
     }
 });
 
 
-app.get("/email",async(req, res)=>{
+app.get("/email", async (req, res) => {
     var email = req.query.email
-    var emailsql=await query(`select email from  login_data.registretion_data where email='${email}'`)
+    var emailsql = await query(`select email from  login_data.registretion_data where email='${email}'`)
     console.log(emailsql);
-    if(emailsql.length > 0){
-        res.json({exist:true})
-    }else{
-        res.json({exist:false})
+    if (emailsql.length > 0) {
+        res.json({ exist: true })
+    } else {
+        res.json({ exist: false })
     }
 })
 
@@ -322,34 +194,45 @@ app.post('/login', async (req, res) => {
     res.redirect('/home');
 
 })
-app.get("/ed", (req, res) => {
-    res.render("editprofile");
-})
-app.post('/editpro', async (req, res) => {
 
-    const { email, pwd ,repwd1,repwd2} = req.body;
-    var alldata=`select * from registretion_data where email = '${email}'`;
-    var alldatares = await query(alldata);
-    console.log(alldatares);
-    var varifyUser = `select * from registretion_data where activated = 1 and email = '${email}'`;
-   
-    //comparing password
-    var bpass = alldatares[0].user_password;
-    console.log("bpass", bpass)
-    var match = await bcrypt.compare(pwd, bpass);
-    console.log(match);
-    if (!match) {
-        return res.send(`wrong password!`)
+
+
+
+app.get("/editreg?", (req, res) => {
+    const jwtToken = req.cookies.jwtToken;
+    if (!jwtToken) {
+        return res.send(`you are not authorized register first <a href="/login">login</a>`)
     }
-    res.redirect('/home');
-    var sqldelrec=`delete from login_data.registretion_data where email = '${email}'`
-    var sqlins = `INSERT INTO login_data.registretion_data (user_name, user_password, email,activation_token) VALUES ('${name}', '${hashp}', '${email}','${activation_token}'); `;
-    con.query(sqlins, (err, res) => {
-        if (err) throw err;
+    const tokendata = jwt.verify(jwtToken, "tulsi")
 
-        console.log("inserted")
-    })
+    console.log(tokendata)
+    res.render("editreg", { tokendata });
 })
+
+
+app.post("/editreg", async (req, res) => {
+    const { user_id, user_name, email, pwd, repwd } = req.body;
+    const id = req.body.id;
+    console.log(id);
+    var sql = `SELECT * FROM registretion_data where user_id = ${id};`
+    const result = await query(sql);;
+    var oldPass = result[0].user_password;
+    console.log("old p " + oldPass);
+    var hashp = await bcrypt.hash(repwd, 10);
+    var match = await bcrypt.compare(pwd, oldPass);
+    console.log(match);
+    if (match) {
+        var sql1 = `update registretion_data set  email="${email}", user_password="${hashp}" where user_id= ${id};`
+        var update = await query(sql1);
+        console.log("edited");
+        res.redirect('/home');
+    } else {
+        res.redirect('/editreg');
+        console.log("old password not mathed");
+    }
+})
+
+
 
 app.get('/home', (req, res) => {
     const jwtToken = req.cookies.jwtToken;
@@ -364,7 +247,7 @@ app.get('/home', (req, res) => {
 
 
 app.get("/logout", (req, res) => {
-    
+
     res.clearCookie("jwttoken");
     res.redirect("/")
 })
@@ -373,10 +256,54 @@ app.get("/logout", (req, res) => {
 
 
 
+//=============================================================================
+
+let sql = "SELECT * FROM student_express limit 0,10";
+connection.query(sql, function (err, result) {
+    if (err) throw err;
+});
+
+app.set("view engine", "ejs");
+app.set("views", "./views");
+
+app.get("/sortdata", (req, res) => {
+
+    const jwtToken = req.cookies.jwtToken;
+    if (!jwtToken) {
+        return res.send(`you are not authorized register first <a href="/login">login</a>`)
+    }
+    const tokendata = jwt.verify(jwtToken, "tulsi")
+    var limit = 10;
+    var data = ""
+
+    var page_no = 0;
+    var a = req.query.id
+    var offset = (a - 1) * limit || 0
+    var a = req.query.id
+    var order = req.query.sort || "ASC"
+    var cs = req.query.sort_by || 'student_id'
+    console.log(cs)
+
+    connection.query(`SELECT count(student_id) as count from student_express ;`, (err, result) => {
+        // console.log(result)
+        page_no = Math.ceil(result[0].count / limit)
+    });
+
+    connection.query(`select * from student_express order by ${cs} ${order} limit ${offset},${limit} `, (err, result) => {
+        if (err) throw err;
+        data = result;
+        console.log(data)
+    });
 
 
+    setTimeout(() => {
+        res.render("sorting", { page_no, data, cs, a, order });
+    }, 1000);
+});
 
-var conedit= mysql.createConnection(
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++==
+
+var conedit = mysql.createConnection(
     {
         host: 'localhost',
         user: 'root',
@@ -457,7 +384,7 @@ app.get('/search', function (req, res) {
     conedit.query(sqlser, (err, data) => {
         if (err) throw err;
 
-        res.render('tableedit.ejs', { data , page_no});
+        res.render('tableedit.ejs', { data, page_no });
     });
 });
 
@@ -469,6 +396,7 @@ app.get("/page", (req, res) => {
         return res.send(`you are not authorized register first <a href="/login">login</a>`)
     }
     const tokendata = jwt.verify(jwtToken, "tulsi")
+    
     var ajaxx = req.query.ajax || false
     var limit = 10;
     var data = ""
@@ -499,6 +427,7 @@ app.get("/page", (req, res) => {
             res.json(data)
         }
     });
+    
 })
 
 //----------------------------------------------------------------------------------------------------------------------------------
@@ -575,6 +504,7 @@ app.get('/edit', async (req, res) => {
     var sqllan = `SELECT * FROM job_application.language_known where candidate_id=${id1};`
     var sqltec = `SELECT * FROM job_application.technology_known where candidate_id =${id1};`;
 
+
     var sqlrel = `select * from  select_master where select_id=2;`
     var sqlstate = `select * from  select_master where select_id=1;`
     var statename = `SELECT state  FROM job_application.state_master where id = ${state}; `
@@ -633,15 +563,14 @@ app.get('/edit', async (req, res) => {
                                                                         //console.log(sqlexp)
                                                                         //console.log(data3)
                                                                         //console.log(data4)
-
+                                                                        console.log("dataref",dataref.length)
                                                                         res.render("form3.ejs", { data, datarel, datastate, state, staten, data7, datalan, data6, data3, data5, datatec, data4, data8, dataedu, dataexp, dataref, datapref });
                                                                         //editdetails
                                                                         //console.log(data5)
-                                                                        console.log(dataref)
+                                                                    
                                                                         // console.log(datarel)
                                                                         console.log(data)
-
-
+                                                            
                                                                     })
                                                                 })
                                                             })
@@ -872,23 +801,135 @@ app.post('/update1', (req, res) => {
 
 
 //*************************************************************************************************8 */
+
+
+
+
+app.get('/serchdel', function (req, res) {
+    var search = req.query.search || '';
+    var firstname = "";
+    var lastname = "";
+    var cities = "";
+    var re_status = "";
+
+
+    var f_name = search.split('^');
+    var l_name = search.split('$');
+    var city = search.split('@');
+    var relationship_status = search.split('~');
+
+
+    if (f_name.length > 1) {
+        for (var i = 0; i < f_name[1].length; i++) {
+            if (f_name[1].charAt(i) == '$' || f_name[1].charAt(i) == '@' || f_name[1].charAt(i) == '~' || f_name[1].charAt(i) == '*' || f_name[1].charAt(i) == '+' || f_name[1].charAt(i) == '#' || f_name[1].charAt(i) == '^')
+                break;
+            else
+                firstname += f_name[1].charAt(i)
+        }
+        console.log(firstname);
+    }
+
+    if (l_name.length > 1) {
+        for (let i = 0; i < l_name[1].length; i++) {
+            if (l_name[1].charAt(i) == '$' || l_name[1].charAt(i) == '@' || l_name[1].charAt(i) == '~' || l_name[1].charAt(i) == '*' || l_name[1].charAt(i) == '+' || l_name[1].charAt(i) == '#' || l_name[1].charAt(i) == '^')
+                break;
+            else
+                lastname += l_name[1].charAt(i)
+        }
+        console.log(lastname);
+    }
+    if (city.length > 1) {
+        for (let i = 0; i < city[1].length; i++) {
+            if (city[1].charAt(i) == '$' || city[1].charAt(i) == '@' || city[1].charAt(i) == '~' || city[1].charAt(i) == '*' || city[1].charAt(i) == '+' || city[1].charAt(i) == '#' || city[1].charAt(i) == '^')
+                break;
+            else
+                cities += city[1].charAt(i)
+        }
+        console.log(cities);
+    }
+
+
+    if (relationship_status.length > 1) {
+        for (let i = 0; i < relationship_status[1].length; i++) {
+            if (relationship_status[1].charAt(i) == '$' || relationship_status[1].charAt(i) == '@' || relationship_status[1].charAt(i) == '~' || relationship_status[1].charAt(i) == '*' || relationship_status[1].charAt(i) == '+' || relationship_status[1].charAt(i) == '#' || relationship_status[1].charAt(i) == '^')
+                break;
+            else
+                re_status += relationship_status[1].charAt(i)
+        }
+        console.log(re_status);
+    }
+
+
+    var sql = `SELECT * FROM job_application.candidate_details WHERE last_name LIKE '%${lastname}%' AND first_name LIKE'%${firstname}%' AND city LIKE '%${cities}%'AND relation_status LIKE '%${re_status}%' AND is_delete = 0  LIMIT 0, 10;`
+
+    console.log(firstname)
+    console.log(sql)
+    conn.query(sql, (err, dataprt) => {
+        if (err) throw err;
+
+        res.render('table.ejs', { dataprt });
+    });
+
+})
+
+
+app.post('/table', (req, res) => {
+
+    var id = req.query.id
+    console.log(id)
+
+    //sqlprt=`select * from job_application.candidate_details  where is_delete = 0;`
+    var sqldel = `update job_application.candidate_details set is_delete = 1 where candidate_id in ('${id}'); `
+    conn.query(sqldel, (err, data) => {
+        if (err) throw err
+        else {
+            res.json({ data });
+        }
+    })
+})
+
+
+app.post('/tableall', (req, res) => {
+
+    var id = req.query.id
+    console.log(id)
+
+    // dele = eval("req.body."+ tacname[i]);
+    //sqlprt=`select * from job_application.candidate_details  where is_delete = 0;`
+    var sqldel = `update job_application.candidate_details set is_delete = 1 where candidate_id in (${id}); `
+    conn.query(sqldel, (err, data) => {
+        if (err) throw err
+        else {
+            res.json({ data });
+        }
+    })
+})
+
+
+
+
+
+
+
+
+
 //***************************************************************************************************** */
 const conexl = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "root",
     database: "job_application",
-  });
-  
-  // Connect to the database
-  conexl.connect((err) => {
+});
+
+// Connect to the database
+conexl.connect((err) => {
     if (err) {
-      throw err;
+        throw err;
     }
     console.log("Connected to database");
-  });
+});
 
-app.get('/exl',(req,res)=>{
+app.get('/exl', (req, res) => {
     const jwtToken = req.cookies.jwtToken;
     if (!jwtToken) {
         return res.send(`you are not authorized register first <a href="/login">login</a>`)
@@ -896,99 +937,100 @@ app.get('/exl',(req,res)=>{
     const tokendata = jwt.verify(jwtToken, "tulsi")
 
 
-    var finame =req.query.first_name
+    var finame = req.query.first_name
     var laname = req.query.last_name
     var gender1 = req.query.gender
     var email1 = req.query.email
     var phone1 = req.query.phone
-    conexl.query("select * from users",(err,users)=>{
-        if(err) throw err;
-   
-    res.render("exl",{users,finame,laname,gender1,email1,phone1});
-});
+    conexl.query("select * from users", (err, users) => {
+        if (err) throw err;
+
+        res.render("exl", { users, finame, laname, gender1, email1, phone1 });
+
+    });
 })
 
-app.get('/save',(req,res)=>{
+app.get('/save', (req, res) => {
 
-  const id = req.query.id;
-  const first_name = req.query.first_name;
-  const last_name = req.query.last_name;
-  const gender = req.query.gender;
-  const email = req.query.email;
-  const phone = req.query.phone;
+    const id = req.query.id;
+    const first_name = req.query.first_name;
+    const last_name = req.query.last_name;
+    const gender = req.query.gender;
+    const email = req.query.email;
+    const phone = req.query.phone;
 
-  conexl.query('UPDATE users SET first_name = ?, last_name=?, gender=?,email=?,phone=? WHERE id = ?', [first_name,last_name,gender,email,phone,id], (error, results) => {
-    if (error) throw error;
-    console.log("updated!")
-  });
+    conexl.query('UPDATE users SET first_name = ?, last_name=?, gender=?,email=?,phone=? WHERE id = ?', [first_name, last_name, gender, email, phone, id], (error, results) => {
+        if (error) throw error;
+        console.log("updated!")
+    });
 })
 
-app.get('/add',(req,res)=>{
-  var first_name = req.query.first_name;
-  var last_name = req.query.last_name;
-  var gender = req.query.gender;
-  var email = req.query.email;
-  var phone = req.query.phone;
+app.get('/add', (req, res) => {
+    var first_name = req.query.first_name;
+    var last_name = req.query.last_name;
+    var gender = req.query.gender;
+    var email = req.query.email;
+    var phone = req.query.phone;
 
-  conexl.query("insert into users(first_name,last_name,gender,email,phone) value(?,?,?,?,?)",[first_name,last_name,gender,email,phone],(err,result)=>{
-    if(err) throw err;
-    console.log(result)
-    console.log("inserted")
-    res.redirect("exel")
-  })
-})
-
-app.post('/saveAll',(req,res)=>{
-  const id = req.body.user_id;
-  console.log(id)
-  const first_name = req.body.first_name;
-  const last_name = req.body.last_name;
-  const gender = req.body.gender;
-  const email = req.body.email;
-  const phone = req.body.phone;
-  console.log(req.body);
-
-  
-  for(let i=0; i<id.length; i++){
-    let sql = `update users set first_name='${first_name[i]}',last_name='${last_name[i]}',gender='${gender[i]}',email='${email[i]}',phone='${phone[i]}' where id=${id[i]}`;
-    conexl.query(sql,(err,result)=>{
-      if(err) throw err;
-      console.log("updated all");
+    conexl.query("insert into users(first_name,last_name,gender,email,phone) value(?,?,?,?,?)", [first_name, last_name, gender, email, phone], (err, result) => {
+        if (err) throw err;
+        console.log(result)
+        console.log("inserted")
+        res.redirect("exel")
     })
-  } 
-   
- 
-  const fname = req.body.nfirst_name;
-  const lname = req.body.nlast_name;
-  const gen = req.body.ngender;
-  const em = req.body.nemail;
-  const ph = req.body.nphone;
+})
 
-  console.log(typeof("type"+first_name));
-  if(typeof(fname) == "string"){
-    conexl.query('insert into users(first_name,last_name,gender,email,phone) value(?,?,?,?,?)',[fname,lname,gen,em,ph],(err,result)=>{
-      if(err) throw err;
-      console.log("inserted one")
-    })
-  }else if(typeof(fname) == "object"){
-    for(let j=0; j<fname.length; j++){
-      conexl.query('insert into users(first_name,last_name,gender,email,phone) value(?,?,?,?,?)',[fname[j],lname[j],gen[j],em[j],ph[j]],(err,result)=>{
-        if(err) throw err;
-        console.log("inserted all")
-      
-      })
+app.post('/saveAll', (req, res) => {
+    const id = req.body.user_id;
+    console.log(id)
+    const first_name = req.body.first_name;
+    const last_name = req.body.last_name;
+    const gender = req.body.gender;
+    const email = req.body.email;
+    const phone = req.body.phone;
+    console.log(req.body);
+
+
+    for (let i = 0; i < id.length; i++) {
+        let sql = `update users set first_name='${first_name[i]}',last_name='${last_name[i]}',gender='${gender[i]}',email='${email[i]}',phone='${phone[i]}' where id=${id[i]}`;
+        conexl.query(sql, (err, result) => {
+            if (err) throw err;
+            console.log("updated all");
+        })
     }
-  }
-  
+
+
+    const fname = req.body.nfirst_name;
+    const lname = req.body.nlast_name;
+    const gen = req.body.ngender;
+    const em = req.body.nemail;
+    const ph = req.body.nphone;
+
+    console.log(typeof ("type" + first_name));
+    if (typeof (fname) == "string") {
+        conexl.query('insert into users(first_name,last_name,gender,email,phone) value(?,?,?,?,?)', [fname, lname, gen, em, ph], (err, result) => {
+            if (err) throw err;
+            console.log("inserted one")
+        })
+    } else if (typeof (fname) == "object") {
+        for (let j = 0; j < fname.length; j++) {
+            conexl.query('insert into users(first_name,last_name,gender,email,phone) value(?,?,?,?,?)', [fname[j], lname[j], gen[j], em[j], ph[j]], (err, result) => {
+                if (err) throw err;
+                console.log("inserted all")
+
+            })
+        }
+    }
+
 })
 
-app.get('/delete',(req,res)=>{
-  const uid = req.query.uid;
-  conexl.query(`delete from users where id = ${uid}`,(err,result)=>{
-    if(err) throw err;
-    console.log("deleted");
-    
-  })
+app.get('/delete', (req, res) => {
+    const uid = req.query.uid;
+    conexl.query(`delete from users where id = ${uid}`, (err, result) => {
+        if (err) throw err;
+        console.log("deleted");
+
+    })
 })
 
 //==========================================================================================================================
@@ -1245,18 +1287,73 @@ app.get('/cities', (req, res) => {
 
             console.log(stateId)
         }
+
     });
 });
 
 
+//=========================================================================================================
 
 
 
 
+const concombo = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'root',
+  database: 'job_application'
+});
+
+concombo.connect((err) => {
+  if (err) throw err;
+  console.log("connected !!");
+});
+
+///ComboGenerator
+async function generateCombo(combo) {
+  var comboname = combo;
+
+  var query2 = `select opt_value, select_master.select_id from job_application.select_master join job_application.option_master on job_application.select_master.select_id = job_application.option_master.select_id where job_application.option_master.selected_value ='${comboname}';`
+  var data = await getdata(query2);
+
+  console.log("data",data);
 
 
+  var comboStr = "";
+  comboStr += `<select id='${comboname}' name='${comboname}'>`;
 
+  for (let i = 0; i < data.length; i++) {
+    comboStr += `<option value='${data[i].id}'>${data[i].opt_value}</option>`;
+  }
+  comboStr += `</select>`;
+  console.log("combostr",comboStr);
+  console.log(comboname);
+  return comboStr;
+}
+function getdata(query) {
+  return new Promise((resolve, reject) => {
+    concombo.query(query, (err, result) => {
+      if (err) throw err;
+      resolve(result);
+    });
+  });
+}
+app.get('/combo', async (req, res) => {
 
+  var c1 = await generateCombo('state');
+  console.log("c1",c1);
+  var c2 = await generateCombo('relationship_status');
+  console.log("c2",c2);
+
+  var c3 = await generateCombo('location');
+  var c4 = await generateCombo('department');
+  var c5 = await generateCombo('cource');
+ console.log("c3",c3);
+ console.log("c4",c4);
+ console.log("c5",c5);
+  res.render('formnew.ejs', { state: c1, relationship_status: c2, location: c3, department: c4, cource: c5 });
+
+});
 
 
 

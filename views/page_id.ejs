@@ -15,10 +15,10 @@
     </style>
 
     <% if (i==a) { %>
-        <button class="button1 selected" >  <a href= "/?id=<%=i%>&sort_by=<%=cs%>&sort=<%=order%>" > Page <%=i%> </a></button>
+        <button class="button1 selected" >  <a href= "/sortdata?id=<%=i%>&sort_by=<%=cs%>&sort=<%=order%>" > Page <%=i%> </a></button>
         <%  }
           else { %>
-            <button class="button1 unselected" > <a href=" /?id=<%=i%>&sort_by=<%=cs%>&sort=<%=order%>" > Page <%=i%> </a></button>
+            <button class="button1 unselected" > <a href="/sortdata?id=<%=i%>&sort_by=<%=cs%>&sort=<%=order%>" > Page <%=i%> </a></button>
             <% }%>
 
 

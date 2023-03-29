@@ -34,6 +34,8 @@ p{
              background-color: rgb(131, 136, 202);     
 }
    tr{
+   
+    text-align: center;
         background-color: #cdd1f7;
     }
     
@@ -41,8 +43,7 @@ p{
         background-color:  rgb(131, 136, 202);
     }
     td{
-        padding-top: 0px;
-            padding-bottom: 0px;
+      
     }
     .tb1{
         width: 100%;
@@ -106,6 +107,7 @@ p{
         var row = document.getElementById("row");
         const item =document.createElement("tr");
         item.classList.add("row-item")
+        
       
         item.innerHTML = `
       
@@ -125,9 +127,7 @@ p{
                     <td>
                         <input type="text" name="nphone" value="" id="phone">
                     </td>
-                    <td><p onclick="add()">Save</p></td>
-            
-        `;
+                    <td><p onclick="add()">Save</p></td> `;
         row.appendChild(item);
      
   
@@ -150,8 +150,13 @@ p{
         var email = document.getElementById("email").value;
         var  phone = document.getElementById("phone").value;
         fetch(`http://localhost:8080/add?first_name=${first_name}&last_name=${last_name}&gender=${gender}&email=${email}&phone=${phone}`);
-       
-    }
+        let text = "Press a button!\nEither OK or Cancel.";
+//  alert(  location.reload())
+  document.getElementById("demo").innerHTML = text;
+}
+        
+      
+    
    
    
    
